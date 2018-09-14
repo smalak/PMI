@@ -1,25 +1,19 @@
 const basicData = {
   labels: [
     'Yolda',
-    'Park Halinde',
-    'Rölantide',
+    'Park Halinde'
   ],
 
   datasets: [
     {
       title: 'Some Data',
-      color: 'light-blue',
+      color: '#0058a4',
       values: [25, 40, 30, 35, 8, 52, 17, -4]
     },
     {
       title: 'Another Set',
-      color: 'violet',
+      color: '#68cef3',
       values: [25, 50, -10, 15, 18, 32, 27, 14]
-    },
-    {
-      title: 'Yet Another',
-      color: 'blue',
-      values: [15, 20, -3, -15, 58, 12, -17, 37]
     }
   ]
 };
@@ -89,6 +83,7 @@ const percentageChart = {
   parentId: 'frappePercentageChart',
   type: 'percentage',
   data: basicData,
+  colors: ['darkBlue', 'lightBlue'],
   ...basicConfig
 };
 const heatMap = {

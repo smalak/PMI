@@ -20,16 +20,16 @@ const TopbarWrapper = styled.div`
       padding: 0 10px;
       text-align: center;
       overflow: hidden;
+      background-color: #0058a4;
       ${borderRadius()};
 
       h3 {
         a {
           font-size: 21px;
-          font-weight: 300;
+          font-weight: 800;
           line-height: 50px;
-          letter-spacing: 3px;
           text-transform: uppercase;
-          color: black;
+          color: #ffffff;
           display: block;
           text-decoration: none;
         }

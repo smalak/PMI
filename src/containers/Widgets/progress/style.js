@@ -57,41 +57,13 @@ const CircleProgressWidgetBar = styled.div`
 `;
 
 const ProgressWidgetWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  padding: 20px;
-  background-color: #ffffff;
-  overflow: hidden;
-  border: 1px solid ${palette('border', 2)};
-
-  .isoProgressWidgetTopbar {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 15px;
-
-    h3 {
-      font-size: 19px;
-      color: ${palette('text', 0)};
-      font-weight: 400;
-      margin: 0;
-      line-height: 1.2;
+  .progress{
+    .darkBlue{
+      background: #0058a4;
     }
 
-    i {
-      font-size: 24px;
-    }
-  }
-
-  .isoProgressWidgetBody {
-    p {
-      font-size: 14px;
-      color: ${palette('text', 3)};
-      font-weight: 300;
-      width: 100%;
-      margin: 0 0 5px;
+    .lightBlue{
+      background: #68cef3;
     }
   }
 `;

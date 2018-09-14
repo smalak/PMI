@@ -13,7 +13,7 @@ class Topbar extends Component {
         const {toggleCollapsed, url, customizedTheme, locale} = this.props;
         const collapsed = this.props.collapsed && !this.props.openDrawer;
         const styling = {
-            background: customizedTheme.backgroundColor,
+            background: 'linear-gradient(to right, #0058a4, #0099d9)',
             position: 'fixed',
             width: '100%',
             height: 50
