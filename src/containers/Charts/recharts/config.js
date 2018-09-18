@@ -1,6 +1,6 @@
 const width = 400;
 const height = 306;
-const  colors = ['#BAA6CA', '#B7DCFA', '#FFE69A', '#788195'];
+const  colors = ['#feca00', '#0058a4', 'red', '#797979'];
 const datas =  [
   {name: 'Page A', uv: 4000, pv: 2400},
   {name: 'Page B', uv: 3000, pv: 1398},
