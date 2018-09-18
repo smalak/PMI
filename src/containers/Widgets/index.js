@@ -12,7 +12,6 @@ import ContentHolder from '../../components/utility/contentHolder';
 import {dataList, tableinfos, TableViews} from '../Tables/antTables';
 import * as rechartConfigs from '../Charts/recharts/config';
 import * as frappeConfigs from "../Charts/frappeChart/config";
-import ChartWrapper from "../Charts/chart.style";
 import CardWidgetWrapper from './card/style';
 import 'frappe-charts/dist/frappe-charts.min.css';
 import { rtl } from '../../config/withDirection';
@@ -54,7 +53,7 @@ export default class IsoWidgets extends Component {
         }
         let graphic = document.getElementsByClassName("graphics")[0];
         graphic.style.padding = "0px";
-        let graphLegend = document.getElementsByClassName("legend-item-2")[0];
+        let graphLegend = document.getElementsByClassName("legend-item-0")[0];
         if(graphLegend){
             graphLegend.parentElement.removeChild(graphLegend);
         }
@@ -194,7 +193,8 @@ export default class IsoWidgets extends Component {
                     <Col md={15} sm={24} xs={24} style={colStyle}>
                         <IsoWidgetsWrapper>
                             <Box style={tableStyle}>
-                                {/* TABLE */}
+                                <h3>Sürücü Skorları</h3>
+                                <br></br>
                                 <TableViews.SimpleView
                                     tableInfo={tableinfos[0]}
                                     dataList={tableDataList}
