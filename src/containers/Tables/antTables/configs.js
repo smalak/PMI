@@ -1,9 +1,9 @@
 import React from 'react';
 import clone from 'clone';
 import IntlMessages from '../../../components/utility/intlMessages';
-import { DateCell, ImageCell, LinkCell, TextCell } from './helperCells';
+import { DateCell, ImageCell, LinkCell, TextCell, IconCell } from './helperCells';
 
-const renderCell = (object, type, key) => {
+const renderCell = (object, type, key, opt) => {
   const value = object[key];
   switch (type) {
     case 'ImageCell':
@@ -12,6 +12,8 @@ const renderCell = (object, type, key) => {
       return DateCell(value);
     case 'LinkCell':
       return LinkCell(value);
+    case 'IconCell':
+      return IconCell(value, opt);
     default:
       return TextCell(value);
   }
@@ -19,55 +21,72 @@ const renderCell = (object, type, key) => {
 
 const columns = [
   {
-    title: <IntlMessages id="antTable.title.image" />,
-    key: 'avatar',
-    width: '1%',
+    title: '#↓',
+    key: 'order',
+    width: 30,
+    render: object => renderCell(object, 'TextCell', 'order')
+  },
+  {
+    title: '',
+    key: 'image',
+    width: 20,
     className: 'isoImageCell',
-    render: object => renderCell(object, 'ImageCell', 'avatar')
+    render: object => renderCell(object, 'ImageCell', 'image')
   },
   {
-    title: <IntlMessages id="antTable.title.firstName" />,
-    key: 'firstName',
-    width: 100,
-    render: object => renderCell(object, 'TextCell', 'firstName')
+    title: 'Sürücü',
+    key: 'surucu',
+    width: 80,
+    render: object => renderCell(object, 'TextCell', 'surucu')
   },
   {
-    title: <IntlMessages id="antTable.title.lastName" />,
-    key: 'lastName',
-    width: 100,
-    render: object => renderCell(object, 'TextCell', 'lastName')
+    title: 'Araç',
+    key: 'arac',
+    width: 80,
+    render: object => renderCell(object, 'TextCell', 'arac')
   },
   {
-    title: <IntlMessages id="antTable.title.city" />,
-    key: 'city',
-    width: 200,
-    render: object => renderCell(object, 'TextCell', 'city')
+    title: 'Skor',
+    key: 'skor',
+    width: 40,
+    render: object => renderCell(object, 'TextCell', 'skor')
   },
   {
-    title: <IntlMessages id="antTable.title.street" />,
-    key: 'street',
-    width: 200,
-    render: object => renderCell(object, 'TextCell', 'street')
+    title: 'Sert Fren',
+    key: 'sertFren',
+    width: 40,
+    render: object => renderCell(object, 'IconCell', 'sertFren', 'magenta')
   },
   {
-    title: <IntlMessages id="antTable.title.email" />,
-    key: 'email',
-    width: 200,
-    render: object => renderCell(object, 'LinkCell', 'email')
+    title: 'Ani Hızlanma',
+    key: 'aniHizlanma',
+    width: 40,
+    render: object => renderCell(object, 'IconCell', 'aniHizlanma', 'purple')
   },
   {
-    title: <IntlMessages id="antTable.title.dob" />,
-    key: 'date',
-    width: 200,
-    render: object => renderCell(object, 'DateCell', 'date')
+    title: 'Sert Dönüş',
+    key: 'sertDonus',
+    width: 40,
+    render: object => renderCell(object, 'IconCell', 'sertDonus', 'red')
+  },
+  {
+    title: 'Hız Aşımı',
+    key: 'hizAsimi',
+    width: 40,
+    render: object => renderCell(object, 'IconCell', 'hizAsimi', 'orange')
   }
 ];
-const smallColumns = [columns[1], columns[2], columns[3], columns[4]];
+const smallColumns = [columns[0], columns[1], columns[2], columns[3], columns[4], columns[5], columns[6], columns[7], columns[8]];
 const sortColumns = [
+  { ...columns[0], sorter: true },
   { ...columns[1], sorter: true },
   { ...columns[2], sorter: true },
   { ...columns[3], sorter: true },
-  { ...columns[4], sorter: true }
+  { ...columns[4], sorter: true },
+  { ...columns[5], sorter: true },
+  { ...columns[6], sorter: true },
+  { ...columns[7], sorter: true },
+  { ...columns[8], sorter: true }
 ];
 const editColumns = [
   { ...columns[1], width: 300 },

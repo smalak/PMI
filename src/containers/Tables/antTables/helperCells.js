@@ -1,11 +1,35 @@
 import React, { Component } from 'react';
 import ImageCellView from './imageCell';
 import { Icon, Input, Popconfirm } from 'antd';
+import styled from 'styled-components';
 
 const DateCell = data => <p>{data.toLocaleString()}</p>;
 const ImageCell = src => <ImageCellView src={src} />;
 const LinkCell = (link, href) => <a href={href ? href : '#'}>{link}</a>;
+const IconCell = (data, color) => <Rectangle><div className={"rectangle " + (color)}>3</div></Rectangle>
 const TextCell = text => <p>{text}</p>;
+
+const Rectangle = styled.div`
+.rectangle{
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  text-align: center;
+  color: #ffffff;
+}
+.magenta{
+  background-color: #00c8ff;
+}
+.purple{
+  background-color: #9000ff;
+}
+.red{
+  background-color: #fe0072;
+}
+.orange{
+  background-color: #ff4d00;
+}
+`
 
 class EditableCell extends Component {
   constructor(props) {
@@ -72,4 +96,4 @@ class DeleteCell extends Component {
   }
 }
 
-export { DateCell, ImageCell, LinkCell, TextCell, EditableCell, DeleteCell };
+export { DateCell, ImageCell, LinkCell, TextCell, EditableCell, DeleteCell, IconCell };
