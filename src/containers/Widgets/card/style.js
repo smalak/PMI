@@ -48,7 +48,7 @@ const CardWidgetWrapper = styled.div`
     border-right: 1px solid #e9e9e9;
     margin: 6px;
     height: 50px;
-    width: 25%;
+    width: 10%;
   }
 `;
 

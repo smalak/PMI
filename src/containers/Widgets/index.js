@@ -11,6 +11,7 @@ import Box from '../../components/utility/box';
 import ContentHolder from '../../components/utility/contentHolder';
 import {dataList, tableinfos, TableViews} from '../Tables/antTables';
 import * as rechartConfigs from '../Charts/recharts/config';
+import config from '../../config.js';
 import * as frappeConfigs from "../Charts/frappeChart/config";
 import CardWidgetWrapper from './card/style';
 import 'frappe-charts/dist/frappe-charts.min.css';
@@ -46,6 +47,7 @@ export default class IsoWidgets extends Component {
       };
 
     updateStyling() {
+        console.log(config.apiUrl);
         let elements = document.getElementsByClassName("graph-focus-margin");
         for(var i=0;i<elements.length;i++){
             elements[i].style.marginTop="0px";
@@ -83,9 +85,9 @@ export default class IsoWidgets extends Component {
 
         const menuClicked = (
         <DropdownMenu onClick={this.handleMenuClickToLink}>
-            <MenuItem key="1">1st menu item</MenuItem>
-            <MenuItem key="2">2nd menu item</MenuItem>
-            <MenuItem key="3">3d menu item</MenuItem>
+            <MenuItem key="1">Bugün</MenuItem>
+            <MenuItem key="2">Geçen Hafta</MenuItem>
+            <MenuItem key="3">Geçen Ay</MenuItem>
         </DropdownMenu>
         );
 
@@ -146,7 +148,7 @@ export default class IsoWidgets extends Component {
                                     margin: rtl === 'rtl' ? '0 8px 0 0' : '0 0 0 8px'
                                     }}
                                     >
-                                    Button <Icon type="down" />
+                                    Bugün<Icon type="down" />
                                 </Button>
                             </Dropdown>
                         </IsoWidgetsWrapper>
@@ -159,18 +161,18 @@ export default class IsoWidgets extends Component {
                                 <IsoWidgetsWrapper>
                                     <CardWidgetWrapper>
                                         <SeparatedCardWidget
-                                            header={'ALİ'}
-                                            text={'OSMAN'}
+                                            header={'4800 KM'}
+                                            text={'TOPLAM MESAFE'}
                                         />
                                         <div className="divider"></div>
                                         <SeparatedCardWidget
-                                            header={'ALİ2'}
-                                            text={'OSMAN2'}
+                                            header={'1g 20sa 10dk'}
+                                            text={'TOPLAM SÜRE'}
                                         />
                                         <div className="divider"></div>
                                         <SeparatedCardWidget
-                                            header={'ALİ3'}
-                                            text={'OSMAN3'}
+                                            header={'84'}
+                                            text={'ORTALAMA PUAN'}
                                         />
                                     </CardWidgetWrapper>
                                 </IsoWidgetsWrapper>
@@ -179,7 +181,7 @@ export default class IsoWidgets extends Component {
                         <Row style={rowStyle} gutter={0} justify="start">
                             <Col md={24} xs={24} style={colStyle}>
                                 <IsoWidgetsWrapper>
-                                    <Box title={rechartConfigs.LineBarAreaComposedChart.title} style={customBox}>
+                                    <Box title='Başlık' style={customBox}>
                                     <ContentHolder>
                                         <LineBarAreaComposedChart
                                         {...rechartConfigs.LineBarAreaComposedChart}
