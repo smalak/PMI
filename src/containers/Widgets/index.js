@@ -11,7 +11,6 @@ import Box from '../../components/utility/box';
 import ContentHolder from '../../components/utility/contentHolder';
 import {dataList, tableinfos, TableViews} from '../Tables/antTables';
 import * as rechartConfigs from '../Charts/recharts/config';
-import config from '../../config.js';
 import * as frappeConfigs from "../Charts/frappeChart/config";
 import CardWidgetWrapper from './card/style';
 import 'frappe-charts/dist/frappe-charts.min.css';
@@ -27,27 +26,44 @@ import { ProgressWidgetWrapper } from './progress/style';
 const tableDataList = clone(dataList);
 const Button = Buttons;
 tableDataList.size = 10;
+let url = 'http://localhost:8090/platform/api/pmi-daily-statistics/full-statistics';
+
 
 export default class IsoWidgets extends Component {
-    
+
+    state = {
+        statistics: {totalDistance: 0, totalAsset: 4, totalTime: 0, averageScore: 0}
+    }
+
     componentDidMount() {
-        new FrappeChart(frappeConfigs.percentageChart);
+
+        this.chart = new FrappeChart(frappeConfigs.percentageChart);
         new LineBarAreaComposedChart();
+        
+        
         this.updateStyling();
         window.addEventListener('resize', (event) => this.updateStyling());
+
+        fetch(url)
+        .then((resp) => resp.json()) // Transform the data into json
+        .then(data => {
+            this.setState({
+                statistics: data
+            })
+        })
     }
     
-      handleMenuClick = e => {
+    handleMenuClick = e => {
         if (e.key === '3') {
-          this.setState({ visible: false });
+            this.setState({ visible: false });
         }
-      };
-      handleVisibleChange = flag => {
+    };
+
+    handleVisibleChange = flag => {
         this.setState({ visible: flag });
-      };
+    };
 
     updateStyling() {
-        console.log(config.apiUrl);
         let elements = document.getElementsByClassName("graph-focus-margin");
         for(var i=0;i<elements.length;i++){
             elements[i].style.marginTop="0px";
@@ -83,6 +99,16 @@ export default class IsoWidgets extends Component {
             overflow: 'hidden'
         };
 
+        console.log(this.state);
+        if(this.chart){
+        this.chart.data.datesets = [
+            {
+              title: 'Some Data',
+              color: '#0058a4',
+              values: [this.state.statistics.totalAsset]
+            }
+          ];
+        }
         const menuClicked = (
         <DropdownMenu onClick={this.handleMenuClickToLink}>
             <MenuItem key="1">Bugün</MenuItem>
@@ -97,7 +123,7 @@ export default class IsoWidgets extends Component {
                     <Col md={9} sm={24} xs={24} style={colStyle}>
                         <IsoWidgetsWrapper gutterBottom={10}>
                             <ProgressWidgetWrapper>
-                                <Box title={frappeConfigs.percentageChart.header} style={customBox}>
+                                <Box title="Araçlar" style={customBox}>
                                     <ContentHolder>
                                         <div id={frappeConfigs.percentageChart.parentId} />
                                     </ContentHolder>
@@ -110,7 +136,7 @@ export default class IsoWidgets extends Component {
                             <CardWidget
                                 icon="ion-android-chat"
                                 iconcolor="#42A5F5"
-                                number="130000 KM"
+                                number={this.state.statistics.totalDistance + " KM"}
                                 text="TOPLAM MESAFE"
                             />
                         </IsoWidgetsWrapper>
@@ -121,7 +147,7 @@ export default class IsoWidgets extends Component {
                             <CardWidget
                                 icon="ion-music-note"
                                 iconcolor="#F75D81"
-                                number="4g 7sa 16 dk"
+                                number={this.state.statistics.totalTime}
                                 text="TOPLAM SÜRE"
                             />
                         </IsoWidgetsWrapper>
@@ -132,7 +158,7 @@ export default class IsoWidgets extends Component {
                             <CardWidget
                                 icon="ion-trophy"
                                 iconcolor="#FEAC01"
-                                number="76"
+                                number={this.state.statistics.averageScore}
                                 text="ORTALAMA PUAN"
                             />
                         </IsoWidgetsWrapper>
