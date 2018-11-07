@@ -24,9 +24,9 @@ import Dropdown, {
 import { ProgressWidgetWrapper } from './progress/style';
 
 const Option = SelectOption;
-let fullStatistics = 'http://localhost:8090/platform/api/pmi-daily-statistics/full-statistics';
-let periodicStatistics = 'http://localhost:8090/platform/api/pmi-daily-statistics/detailed';
-let pmiAssets = 'http://localhost:8090/platform/api/pmi-assets';
+let fullStatistics = 'http://10.210.163.212:8090/platform/api/pmi-daily-statistics/full-statistics';
+let periodicStatistics = 'http://10.210.163.212:8090/platform/api/pmi-daily-statistics/detailed';
+let pmiAssets = 'http://10.210.163.212:8090/platform/api/pmi-assets';
 
 const width = 400;
 const height = 306;
