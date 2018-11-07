@@ -6,16 +6,17 @@ import styled from 'styled-components';
 const DateCell = data => <p>{data.toLocaleString()}</p>;
 const ImageCell = src => <ImageCellView src={src} />;
 const LinkCell = (link, href) => <a href={href ? href : '#'}>{link}</a>;
-const IconCell = (data, color) => <Rectangle><div className={"rectangle " + (color)}>3</div></Rectangle>
+const IconCell = (data, color) => <Rectangle><div className={"rectangle " + (color)}>{data}</div></Rectangle>
 const TextCell = text => <p>{text}</p>;
 
 const Rectangle = styled.div`
 .rectangle{
-  width: 20px;
-  height: 20px;
-  border-radius: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
   text-align: center;
   color: #ffffff;
+  padding-top: 10px;
 }
 .magenta{
   background-color: #00c8ff;

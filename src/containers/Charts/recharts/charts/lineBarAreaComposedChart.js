@@ -25,7 +25,7 @@ export default class extends Component {
           {/*margin={{ top: 20, right: 20, bottom: 20, left: 20 }}*/}
           
         
-          <XAxis dataKey="name" stroke={colors[3]} />
+          <XAxis dataKey="periyot" stroke={colors[3]} />
           <YAxis stroke={colors[3]} />
           <Tooltip />
           <Legend />
@@ -36,8 +36,8 @@ export default class extends Component {
             fill={colors[0]}
             stroke={colors[0]}
           />
-          <Bar dataKey="pv" barSize={20} fill={colors[1]} />
-          <Line type="monotone" dataKey="uv" stroke={colors[3]} />
+          <Bar dataKey="yol" barSize={20} fill={colors[1]} />
+          <Line type="monotone" dataKey="süre" stroke={colors[3]} />
         </ComposedChart>
       </ChartWrapper>
     );

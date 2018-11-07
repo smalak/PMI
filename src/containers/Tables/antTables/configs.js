@@ -27,13 +27,6 @@ const columns = [
     render: object => renderCell(object, 'TextCell', 'order')
   },
   {
-    title: '',
-    key: 'image',
-    width: 20,
-    className: 'isoImageCell',
-    render: object => renderCell(object, 'ImageCell', 'image')
-  },
-  {
     title: 'Sürücü',
     key: 'surucu',
     width: 80,
@@ -76,7 +69,7 @@ const columns = [
     render: object => renderCell(object, 'IconCell', 'hizAsimi', 'orange')
   }
 ];
-const smallColumns = [columns[0], columns[1], columns[2], columns[3], columns[4], columns[5], columns[6], columns[7], columns[8]];
+const smallColumns = [columns[0], columns[1], columns[2], columns[3], columns[4], columns[5], columns[6], columns[7]];
 const sortColumns = [
   { ...columns[0], sorter: true },
   { ...columns[1], sorter: true },
@@ -85,8 +78,7 @@ const sortColumns = [
   { ...columns[4], sorter: true },
   { ...columns[5], sorter: true },
   { ...columns[6], sorter: true },
-  { ...columns[7], sorter: true },
-  { ...columns[8], sorter: true }
+  { ...columns[7], sorter: true }
 ];
 const editColumns = [
   { ...columns[1], width: 300 },

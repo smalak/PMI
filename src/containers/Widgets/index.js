@@ -9,11 +9,12 @@ import FrappeChart from 'frappe-charts/dist/frappe-charts.min.esm';
 import LineBarAreaComposedChart from '../Charts/recharts/charts/lineBarAreaComposedChart'
 import Box from '../../components/utility/box';
 import ContentHolder from '../../components/utility/contentHolder';
+import Select, { SelectOption } from '../../components/uielements/select';
 import {dataList, tableinfos, TableViews} from '../Tables/antTables';
-import * as rechartConfigs from '../Charts/recharts/config';
 import * as frappeConfigs from "../Charts/frappeChart/config";
 import CardWidgetWrapper from './card/style';
 import 'frappe-charts/dist/frappe-charts.min.css';
+import { DateCell, ImageCell, LinkCell, TextCell, IconCell } from '../Tables/antTables/helperCells';
 import { rtl } from '../../config/withDirection';
 import Dropdown, {
     DropdownMenu,
@@ -22,46 +23,187 @@ import Dropdown, {
   import Buttons from '../../components/uielements/button';
 import { ProgressWidgetWrapper } from './progress/style';
 
+const Option = SelectOption;
+let fullStatistics = 'http://localhost:8090/platform/api/pmi-daily-statistics/full-statistics';
+let periodicStatistics = 'http://localhost:8090/platform/api/pmi-daily-statistics/detailed';
+let pmiAssets = 'http://localhost:8090/platform/api/pmi-assets';
 
-const tableDataList = clone(dataList);
-const Button = Buttons;
-tableDataList.size = 10;
-let url = 'http://localhost:8090/platform/api/pmi-daily-statistics/full-statistics';
+const width = 400;
+const height = 306;
+const  colors = ['#feca00', '#0058a4', 'red', '#797979'];
+const renderCell = (object, type, key, opt) => {
+    const value = object[key];
+    switch (type) {
+      case 'ImageCell':
+        return ImageCell(value);
+      case 'DateCell':
+        return DateCell(value);
+      case 'LinkCell':
+        return LinkCell(value);
+      case 'IconCell':
+        return IconCell(value, opt);
+      default:
+        return TextCell(value);
+    }
+  };
+const columns = [
+    {
+      title: '#↓',
+      key: 'order',
+      width: 30,
+      render: object => renderCell(object, 'TextCell', 'order')
+    },
+    {
+      title: 'Sürücü',
+      key: 'surucu',
+      width: 80,
+      render: object => renderCell(object, 'TextCell', 'surucu')
+    },
+    {
+      title: 'Araç',
+      key: 'arac',
+      width: 80,
+      render: object => renderCell(object, 'TextCell', 'arac')
+    },
+    {
+      title: 'Skor',
+      key: 'skor',
+      width: 40,
+      render: object => renderCell(object, 'TextCell', 'skor')
+    },
+    {
+      title: 'Sert Fren',
+      key: 'sertFren',
+      width: 40,
+      render: object => renderCell(object, 'IconCell', 'sertFren', 'magenta')
+    },
+    {
+      title: 'Ani Hızlanma',
+      key: 'aniHizlanma',
+      width: 40,
+      render: object => renderCell(object, 'IconCell', 'aniHizlanma', 'purple')
+    },
+    {
+      title: 'Sert Dönüş',
+      key: 'sertDonus',
+      width: 40,
+      render: object => renderCell(object, 'IconCell', 'sertDonus', 'red')
+    },
+    {
+      title: 'Hız Aşımı',
+      key: 'hizAsimi',
+      width: 40,
+      render: object => renderCell(object, 'IconCell', 'hizAsimi', 'orange')
+    }
+  ];
 
+    const {rowStyle, colStyle} = basicStyle;
+
+    const customBox = { 
+        marginLeft: '0px',
+        padding: '10px 0px 0px 10px'
+    };
+
+    const selectionStyle = {
+        marginTop: '-36px'
+    };
+
+    const tableStyle = {
+        maxHeight: '510px',
+        overflow: 'scroll',
+        height: '510px',
+        marginLeft: '0px'
+    };
+
+    const widgetPageStyle = {
+        display: 'flex',
+        flexFlow: 'row wrap',
+        alignItems: 'flex-start',
+        padding: '15px',
+        overflow: 'hidden'
+    };
 
 export default class IsoWidgets extends Component {
 
     state = {
-        statistics: {totalDistance: 0, totalAsset: 4, totalTime: 0, averageScore: 0}
+        statistics: {totalDistance: 0, totalAsset: 4, totalTime: 0, averageScore: 0},
+        periodicAnalytics: {totalAsset: 0, totalDistance: 0, totalTime: '0 dk', averageScore: 0},
+        dailyStatistics: [],
+        datas: [
+            {periyot: 'Bugün', süre: 4000, yol: 2400}
+          ],
+        selection: '2',
+        tableDataList: []
     }
 
+    handleChange = value => {
+        this.setState({
+            selection: value
+        })
+        this.changePeriod(value);
+        this.getPmiAssets();
+    };
+
     componentDidMount() {
-
-        this.chart = new FrappeChart(frappeConfigs.percentageChart);
         new LineBarAreaComposedChart();
-        
-        
-        this.updateStyling();
-        window.addEventListener('resize', (event) => this.updateStyling());
 
-        fetch(url)
-        .then((resp) => resp.json()) // Transform the data into json
+        fetch(fullStatistics)
+        .then((resp) => resp.json())
         .then(data => {
             this.setState({
                 statistics: data
             })
+        });
+        this.getPmiAssets();
+        this.changePeriod(this.state.selection);
+    }
+
+    getPmiAssets() {
+        let dataList = [];
+        fetch(pmiAssets)
+        .then((resp) => resp.json())
+        .then(data => {
+            let counter = 1;
+            if (this.state.selection === '1'){
+                data.forEach(d => {       
+                        dataList.push({order: counter, surucu: d.name, arac: d.name, skor: d.score, 
+                            sertFren: d.dailyHarshDeceleration, aniHizlanma: d.dailyHarshAcceleration,
+                            sertDonus: d.dailyHarshTurn, hizAsimi: d.dailyOverSpeedDistance + 'KM'});
+                    
+                    counter++;
+                })
+            } else if (this.state.selection === '2'){
+                data.forEach(d => {       
+                    dataList.push({order: counter, surucu: d.name, arac: d.name, skor: d.score, 
+                        sertFren: d.weeklyHarshDeceleration, aniHizlanma: d.weeklyHarshAcceleration,
+                        sertDonus: d.weeklyHarshTurn, hizAsimi: d.weeklyOverSpeedDistance + 'KM'});
+                
+                counter++;
+                })
+            } else {
+                data.forEach(d => {       
+                    dataList.push({order: counter, surucu: d.name, arac: d.name, skor: d.score, 
+                        sertFren: d.monthlyHarshDeceleration, aniHizlanma: d.monthlyHarshAcceleration,
+                        sertDonus: d.monthlyHarshTurn, hizAsimi: d.monthlyOverSpeedDistance + 'KM'});
+                
+                counter++;
+                })
+            }
+        }).then(this.setState({
+            tableDataList: dataList
+        }))
+    }
+
+    changePeriod(value) {
+        fetch(periodicStatistics + "?period=" + value)
+        .then((resp) => resp.json())
+        .then(data => {
+            this.setState({
+                periodicAnalytics: data,
+                dailyStatistics: data.dailyStatistics,
+            })
         })
     }
-    
-    handleMenuClick = e => {
-        if (e.key === '3') {
-            this.setState({ visible: false });
-        }
-    };
-
-    handleVisibleChange = flag => {
-        this.setState({ visible: flag });
-    };
 
     updateStyling() {
         let elements = document.getElementsByClassName("graph-focus-margin");
@@ -69,8 +211,12 @@ export default class IsoWidgets extends Component {
             elements[i].style.marginTop="0px";
             elements[i].style.marginBottom="0px";
         }
-        let graphic = document.getElementsByClassName("graphics")[0];
-        graphic.style.padding = "0px";
+        let graphics = document.getElementsByClassName("graphics");
+        if(graphics){
+            if(graphics[0]){
+                graphics[0].style.padding = "0px";
+            }
+        }
         let graphLegend = document.getElementsByClassName("legend-item-0")[0];
         if(graphLegend){
             graphLegend.parentElement.removeChild(graphLegend);
@@ -78,47 +224,30 @@ export default class IsoWidgets extends Component {
     }
 
     render() {
-        const {rowStyle, colStyle} = basicStyle;
-        const customBox = { 
-            marginLeft: '0px',
-            padding: '10px 0px 0px 10px'
-        };
+        this.state.datas = [];
 
-        const tableStyle = {
-            maxHeight: '510px',
-            overflow: 'scroll',
-            height: '510px',
-            marginLeft: '0px'
+        this.state.dailyStatistics.forEach(st => {
+            this.state.datas.push({periyot: st.periyot, süre: st.totalTime, yol: st.totalDistance})
+        })
+
+        if(frappeConfigs){
+            frappeConfigs.basicData.datasets = (
+                [
+                  {
+                    title: 'Some Data',
+                    color: '#0058a4',
+                    values: [this.state.statistics.totalAsset]
+                  }
+                ]
+            )
         }
-
-        const wisgetPageStyle = {
-            display: 'flex',
-            flexFlow: 'row wrap',
-            alignItems: 'flex-start',
-            padding: '15px',
-            overflow: 'hidden'
-        };
-
-        console.log(this.state);
-        if(this.chart){
-        this.chart.data.datesets = [
-            {
-              title: 'Some Data',
-              color: '#0058a4',
-              values: [this.state.statistics.totalAsset]
-            }
-          ];
-        }
-        const menuClicked = (
-        <DropdownMenu onClick={this.handleMenuClickToLink}>
-            <MenuItem key="1">Bugün</MenuItem>
-            <MenuItem key="2">Geçen Hafta</MenuItem>
-            <MenuItem key="3">Geçen Ay</MenuItem>
-        </DropdownMenu>
-        );
-
+        
+        this.chart = new FrappeChart(frappeConfigs.percentageChart);
+        window.addEventListener('resize', (event) => this.updateStyling());
+        this.updateStyling();
+        
         return (
-            <div style={wisgetPageStyle}>
+            <div style={widgetPageStyle}>
                 <Row style={rowStyle} gutter={0} justify="start">
                     <Col md={9} sm={24} xs={24} style={colStyle}>
                         <IsoWidgetsWrapper gutterBottom={10}>
@@ -134,7 +263,7 @@ export default class IsoWidgets extends Component {
                     <Col md={5} sm={8} xs={24} style={colStyle}>
                         <IsoWidgetsWrapper gutterBottom={10}>
                             <CardWidget
-                                icon="ion-android-chat"
+                                icon="ion-timer"
                                 iconcolor="#42A5F5"
                                 number={this.state.statistics.totalDistance + " KM"}
                                 text="TOPLAM MESAFE"
@@ -145,7 +274,7 @@ export default class IsoWidgets extends Component {
                         <IsoWidgetsWrapper gutterBottom={10}>
                             {/* Card Widget */}
                             <CardWidget
-                                icon="ion-music-note"
+                                icon="ion-time"
                                 iconcolor="#F75D81"
                                 number={this.state.statistics.totalTime}
                                 text="TOPLAM SÜRE"
@@ -164,19 +293,20 @@ export default class IsoWidgets extends Component {
                         </IsoWidgetsWrapper>
                     </Col>
                 </Row>
-                <Row style={rowStyle} gutter={0} justify="start">
+                <Row style={selectionStyle} gutter={0} justify="start">
                     <Col md={24} style={colStyle}>
                         <IsoWidgetsWrapper>
-                            <span style={{color: 'blue', paddingLeft: '8px' }}>Başlık</span>
-                            <Dropdown overlay={menuClicked}>
-                                <Button
-                                    style={{
-                                    margin: rtl === 'rtl' ? '0 8px 0 0' : '0 0 0 8px'
-                                    }}
-                                    >
-                                    Bugün<Icon type="down" />
-                                </Button>
-                            </Dropdown>
+                            <ContentHolder>
+                                <Select
+                                defaultValue={this.state.selection}
+                                onChange={this.handleChange}
+                                style={{ width: '120px' }}
+                                >
+                                    <Option value="1">Bugün</Option>
+                                    <Option value="2">Geçen Hafta</Option>
+                                    <Option value="3">Geçen Ay</Option>
+                                </Select>
+                            </ContentHolder>
                         </IsoWidgetsWrapper>
                     </Col>
                 </Row>
@@ -187,17 +317,17 @@ export default class IsoWidgets extends Component {
                                 <IsoWidgetsWrapper>
                                     <CardWidgetWrapper>
                                         <SeparatedCardWidget
-                                            header={'4800 KM'}
+                                            header={this.state.periodicAnalytics.totalDistance + ' KM'}
                                             text={'TOPLAM MESAFE'}
                                         />
                                         <div className="divider"></div>
                                         <SeparatedCardWidget
-                                            header={'1g 20sa 10dk'}
+                                            header={this.state.periodicAnalytics.totalTime}
                                             text={'TOPLAM SÜRE'}
                                         />
                                         <div className="divider"></div>
                                         <SeparatedCardWidget
-                                            header={'84'}
+                                            header={this.state.periodicAnalytics.averageScore}
                                             text={'ORTALAMA PUAN'}
                                         />
                                     </CardWidgetWrapper>
@@ -209,9 +339,7 @@ export default class IsoWidgets extends Component {
                                 <IsoWidgetsWrapper>
                                     <Box title='Başlık' style={customBox}>
                                     <ContentHolder>
-                                        <LineBarAreaComposedChart
-                                        {...rechartConfigs.LineBarAreaComposedChart}
-                                        />
+                                        <LineBarAreaComposedChart datas={this.state.datas} width={width} height={height} colors={colors}/>
                                     </ContentHolder>
                                     </Box>
                                 </IsoWidgetsWrapper>
@@ -225,7 +353,8 @@ export default class IsoWidgets extends Component {
                                 <br></br>
                                 <TableViews.SimpleView
                                     tableInfo={tableinfos[0]}
-                                    dataList={tableDataList}
+                                    dataSource={this.state.tableDataList}
+                                    columns={columns}
                                 />
                             </Box>
                         </IsoWidgetsWrapper>

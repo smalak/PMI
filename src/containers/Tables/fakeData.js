@@ -1,7 +1,6 @@
 const tableData = JSON.parse(
   `[{
     "order": 1,
-    "image": "https://kopilot.turkcell.com.tr:1323/static/user/profile/fa9f4893-16c7-4f73-6d5b-ddc4277029e2.jpg",
     "surucu": "Lake Zelda",
     "arac": "Lonny79@hotmail.com",
     "skor": "Emelia",
@@ -11,7 +10,6 @@ const tableData = JSON.parse(
     "hizAsimi": "2016-09-27T08:18:56.302Z"
   }, {
     "order": 2,
-    "image": "https://kopilot.turkcell.com.tr:1323/static/user/profile/fa9f4893-16c7-4f73-6d5b-ddc4277029e2.jpg",
     "surucu": "Lake Zelda",
     "arac": "Lonny79@hotmail.com",
     "skor": "Emelia",
@@ -21,7 +19,6 @@ const tableData = JSON.parse(
     "hizAsimi": "2016-09-27T08:18:56.302Z"
   }, {
     "order": 3,
-    "image": "https://kopilot.turkcell.com.tr:1323/static/user/profile/fa9f4893-16c7-4f73-6d5b-ddc4277029e2.jpg",
     "surucu": "Lake Zelda",
     "arac": "Lonny79@hotmail.com",
     "skor": "Emelia",
@@ -31,7 +28,6 @@ const tableData = JSON.parse(
     "hizAsimi": "2016-09-27T08:18:56.302Z"
   }, {
     "order": 4,
-    "image": "https://kopilot.turkcell.com.tr:1323/static/user/profile/fa9f4893-16c7-4f73-6d5b-ddc4277029e2.jpg",
     "surucu": "Lake Zelda",
     "arac": "Lonny79@hotmail.com",
     "skor": "Emelia",
@@ -41,7 +37,6 @@ const tableData = JSON.parse(
     "hizAsimi": "2016-09-27T08:18:56.302Z"
   }, {
     "order": 5,
-    "image": "https://kopilot.turkcell.com.tr:1323/static/user/profile/fa9f4893-16c7-4f73-6d5b-ddc4277029e2.jpg",
     "surucu": "Lake Zelda",
     "arac": "Lonny79@hotmail.com",
     "skor": "Emelia",
@@ -51,7 +46,6 @@ const tableData = JSON.parse(
     "hizAsimi": "2016-09-27T08:18:56.302Z"
   }, {
     "order": 6,
-    "image": "https://kopilot.turkcell.com.tr:1323/static/user/profile/fa9f4893-16c7-4f73-6d5b-ddc4277029e2.jpg",
     "surucu": "Lake Zelda",
     "arac": "Lonny79@hotmail.com",
     "skor": "Emelia",
@@ -61,7 +55,6 @@ const tableData = JSON.parse(
     "hizAsimi": "2016-09-27T08:18:56.302Z"
   }, {
     "order": 7,
-    "image": "https://kopilot.turkcell.com.tr:1323/static/user/profile/fa9f4893-16c7-4f73-6d5b-ddc4277029e2.jpg",
     "surucu": "Lake Zelda",
     "arac": "Lonny79@hotmail.com",
     "skor": "Emelia",
@@ -71,7 +64,6 @@ const tableData = JSON.parse(
     "hizAsimi": "2016-09-27T08:18:56.302Z"
   }, {
     "order": 8,
-    "image": "https://kopilot.turkcell.com.tr:1323/static/user/profile/fa9f4893-16c7-4f73-6d5b-ddc4277029e2.jpg",
     "surucu": "Lake Zelda",
     "arac": "Lonny79@hotmail.com",
     "skor": "Emelia",
@@ -81,7 +73,6 @@ const tableData = JSON.parse(
     "hizAsimi": "2016-09-27T08:18:56.302Z"
   }, {
     "order": 9,
-    "image": "https://kopilot.turkcell.com.tr:1323/static/user/profile/fa9f4893-16c7-4f73-6d5b-ddc4277029e2.jpg",
     "surucu": "Lake Zelda",
     "arac": "Lonny79@hotmail.com",
     "skor": "Emelia",
@@ -91,7 +82,6 @@ const tableData = JSON.parse(
     "hizAsimi": "2016-09-27T08:18:56.302Z"
   }, {
     "order": 10,
-    "image": "https://kopilot.turkcell.com.tr:1323/static/user/profile/fa9f4893-16c7-4f73-6d5b-ddc4277029e2.jpg",
     "surucu": "Lake Zelda",
     "arac": "Lonny79@hotmail.com",
     "skor": "Emelia",
@@ -101,7 +91,6 @@ const tableData = JSON.parse(
     "hizAsimi": "2016-09-27T08:18:56.302Z"
   }, {
     "order": 11,
-    "image": "https://kopilot.turkcell.com.tr:1323/static/user/profile/fa9f4893-16c7-4f73-6d5b-ddc4277029e2.jpg",
     "surucu": "Lake Zelda",
     "arac": "Lonny79@hotmail.com",
     "skor": "Emelia",

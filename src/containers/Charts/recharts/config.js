@@ -105,7 +105,6 @@ const LineBarAreaComposedChart = {
   width,
   height,
   colors,
-  datas,
 };
 const CustomActiveShapePieChart = {
   componentName: 'CustomActiveShapePieChart',
