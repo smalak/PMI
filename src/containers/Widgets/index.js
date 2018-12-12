@@ -24,9 +24,9 @@ import Dropdown, {
 import { ProgressWidgetWrapper } from './progress/style';
 
 const Option = SelectOption;
-let fullStatistics = 'http://10.210.163.212:8090/platform/api/pmi-daily-statistics/full-statistics';
-let periodicStatistics = 'http://10.210.163.212:8090/platform/api/pmi-daily-statistics/detailed';
-let pmiAssets = 'http://10.210.163.212:8090/platform/api/pmi-assets';
+let fullStatistics = 'https://kopilot.turkcell.com.tr/platform/api/pmi-daily-statistics/full-statistics';
+let periodicStatistics = 'https://kopilot.turkcell.com.tr/platform/api/pmi-daily-statistics/detailed';
+let pmiAssets = 'https://kopilot.turkcell.com.tr/platform/api/pmi-assets';
 
 const width = 400;
 const height = 306;
@@ -199,9 +199,14 @@ export default class IsoWidgets extends Component {
         .then((resp) => resp.json())
         .then(data => {
             this.setState({
-                periodicAnalytics: data,
+                periodicAnalytics: {
+                    totalDistance: data.totalDistance,
+                    totalTime: data.totalTime,
+                    averageScore: data.averageScore
+                },
                 dailyStatistics: data.dailyStatistics,
             })
+            console.log(this.state.periodicAnalytics);
         })
     }
 
@@ -227,7 +232,7 @@ export default class IsoWidgets extends Component {
         this.state.datas = [];
 
         this.state.dailyStatistics.forEach(st => {
-            this.state.datas.push({periyot: st.periyot, süre: st.totalTime, yol: st.totalDistance})
+            this.state.datas.push({periyot: st.periyot, süre: Math.round(st.totalTime / 60), yol: st.totalDistance})
         })
 
         if(frappeConfigs){
@@ -263,7 +268,7 @@ export default class IsoWidgets extends Component {
                     <Col md={5} sm={8} xs={24} style={colStyle}>
                         <IsoWidgetsWrapper gutterBottom={10}>
                             <CardWidget
-                                icon="ion-timer"
+                                icon="ion-android-bus"
                                 iconcolor="#42A5F5"
                                 number={this.state.statistics.totalDistance + " KM"}
                                 text="TOPLAM MESAFE"
@@ -274,7 +279,7 @@ export default class IsoWidgets extends Component {
                         <IsoWidgetsWrapper gutterBottom={10}>
                             {/* Card Widget */}
                             <CardWidget
-                                icon="ion-time"
+                                icon="ion-clock"
                                 iconcolor="#F75D81"
                                 number={this.state.statistics.totalTime}
                                 text="TOPLAM SÜRE"
